@@ -1,0 +1,44 @@
+const express = require('express');
+const app = express();
+const nodemailer = require("nodemailer");
+const cors = require('cors');
+const bodyParser = require('body-parser');
+
+
+app.use(cors())
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
+
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: "solnseviktor@gmail.com", // generated ethereal user
+        pass: "solnsev1", // generated ethereal password
+    }, tls: {
+        rejectUnauthorized: false
+    }
+});
+
+app.get('/', function (req, res) {
+    res.send('Hello World!');
+});
+
+app.post('/sendMessage', async function (req, res) {
+
+const {name, contacts, message} = req.body
+    let info = await transporter.sendMail({
+        from: 'Portfolio', // sender address
+        to: "solnseviktor@gmail.com", // list of receivers
+        subject: "От работодателя", // Subject line
+        // text: "Привет", // plain text body
+        html: `<b>Сообщение из портфолио</b>
+<div>Имя: ${name}</div>
+<div>Контакты: ${contacts}</div>
+        <div>Сообщение: ${message}</div>`, // html body
+    });
+    res.send("ok")
+});
+
+app.listen(3010, function () {
+    console.log('Example app listening on port 3010!');
+});
