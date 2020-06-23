@@ -9,11 +9,14 @@ app.use(cors())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
+let smtp_login = process.env.SMTP_LOGIN || "---";
+let smtp_password = process.env.SMTP_PASSWORD || "---";
+
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: "solnseviktor@gmail.com", // generated ethereal user
-        pass: "solnsev1", // generated ethereal password
+        user: smtp_login, // generated ethereal user
+        pass: smtp_password, // generated ethereal password
     }, tls: {
         rejectUnauthorized: false
     }
@@ -39,6 +42,8 @@ const {name, contacts, message} = req.body
     res.send("ok")
 });
 
-app.listen(3010, function () {
+let port = process.env.PORT || 3010;
+
+app.listen(port, function () {
     console.log('Example app listening on port 3010!');
 });
