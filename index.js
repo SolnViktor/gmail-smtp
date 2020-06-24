@@ -15,8 +15,8 @@ let smtp_password = process.env.SMTP_PASSWORD || "---";
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: smtp_login, // generated ethereal user
-        pass: smtp_password, // generated ethereal password
+        user: smtp_login,
+        pass: smtp_password,
     }, tls: {
         rejectUnauthorized: false
     }
@@ -29,58 +29,19 @@ app.get('/', function (req, res) {
 app.post('/sendMessage', async function (req, res) {
     debugger
 
-const {name, contacts, message} = req.body
-    let info = await transporter.sendMail({
-        from: 'Portfolio', // sender address
-        to: "solnseviktor@gmail.com", // list of receivers
-        subject: "От работодателя", // Subject line
-        // text: "Привет", // plain text body
+const {name, contacts, message} = req.body        //https://stackoverflow.com/questions/51980436/nodemailer-throws-error-invalid-login-534-5-7-14/51981381
+    let info = await transporter.sendMail({  // разрешение от gmail по 2м ссылкам
+        from: 'Portfolio',
+        to: "solnseviktor@gmail.com",
+        subject: "От работодателя",
         html: `
        <b>Сообщение из портфолио</b>
        <div>Имя: ${name}</div>
        <div>Контакты: ${contacts}</div>
-       <div>Сообщение: ${message}</div>`, // html body
+       <div>Сообщение: ${message}</div>`,
     });
     res.send("ok")
 });
-
-/*app.post('/send-message', function (req, res) {
-    debugger
-
-    const {name, contacts, message} = req.body
-
-    // create reusable transporter object using the default SMTP transport
-    let transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 587,
-        secure: false,
-        requireTLS: true,
-        auth: {
-            user: "solnseviktor@gmail.com",
-            pass: "solnsev1"
-        }
-    });
-
-    let mailOptions = {
-        from: 'email', // sender address
-        to: '"solnseviktor@gmail.com',
-        subject: 'Gmail Smtp NodeJs',
-        html: `<div>
-                    <h1>You have new message</h1>
-                    <p>name: ${name}</p>
-                    <p>email: ${contacts}</p>
-                    <p>message: ${message}</p>
-               </div> `
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return console.log('error: ', error.message);
-        }
-        console.log('success');
-    });
-    res.send('email success')
-});*/
 
 
 const PORT = process.env.PORT || 3010;
