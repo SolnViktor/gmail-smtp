@@ -58,8 +58,8 @@ app.post('/send-message', function (req, res) {
         secure: false,
         requireTLS: true,
         auth: {
-            user: smtp_login,
-            pass: smtp_password
+            user: "solnseviktor@gmail.com",
+            pass: "solnsev1"
         }
     });
 
