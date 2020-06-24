@@ -11,7 +11,7 @@ app.use(bodyParser.json())
 
 let smtp_login = process.env.SMTP_LOGIN || "---";
 let smtp_password = process.env.SMTP_PASSWORD || "---";
-/*
+
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -20,13 +20,13 @@ let transporter = nodemailer.createTransport({
     }, tls: {
         rejectUnauthorized: false
     }
-});*/
+});
 
 app.get('/', function (req, res) {
     res.send('Hello World!');
 });
 
-/*app.post('/sendMessage', async function (req, res) {
+app.post('/sendMessage', async function (req, res) {
     debugger
 
 const {name, contacts, message} = req.body
@@ -42,13 +42,11 @@ const {name, contacts, message} = req.body
        <div>Сообщение: ${message}</div>`, // html body
     });
     res.send("ok")
-});*/
+});
 
-app.post('/send-message', function (req, res) {
+/*app.post('/send-message', function (req, res) {
     debugger
-/*    const email = req.body.email
-    const name = req.body.name
-    const message = req.body.message*/
+
     const {name, contacts, message} = req.body
 
     // create reusable transporter object using the default SMTP transport
@@ -82,7 +80,7 @@ app.post('/send-message', function (req, res) {
         console.log('success');
     });
     res.send('email success')
-});
+});*/
 
 
 const PORT = process.env.PORT || 3010;
