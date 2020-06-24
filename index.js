@@ -45,9 +45,11 @@ const {name, contacts, message} = req.body
 });*/
 
 app.post('/send-message', function (req, res) {
-    const email = req.body.email
+    debugger
+/*    const email = req.body.email
     const name = req.body.name
-    const message = req.body.message
+    const message = req.body.message*/
+    const {name, contacts, message} = req.body
 
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
@@ -62,13 +64,13 @@ app.post('/send-message', function (req, res) {
     });
 
     let mailOptions = {
-        from: email, // sender address
+        from: 'email', // sender address
         to: '"solnseviktor@gmail.com',
         subject: 'Gmail Smtp NodeJs',
         html: `<div>
                     <h1>You have new message</h1>
                     <p>name: ${name}</p>
-                    <p>email: ${email}</p>
+                    <p>email: ${contacts}</p>
                     <p>message: ${message}</p>
                </div> `
     };
